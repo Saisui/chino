@@ -38,7 +38,8 @@ compile:
 
 ```ruby
 
-erb2(File.read('1.jinja'), true,
+eval erb2(File.read('1.jinja'), true,
+  buf: '_buf',
   block: %w[{% %}],
   embed: %w[{{ }}],
   comment: %w[{# #}]
@@ -58,3 +59,22 @@ like `{{"\{\{ value \}\}"}}`
 finish
 ```
 
+### advanced usage
+
+#### use defined method
+set the buf symbol is not a `local variable`.
+could be follows:
+1. instance_variable `@_instance_buf`
+2. class_variable `@@_class_buf`
+3. global_variable `$_global_buf`
+
+```ruby
+erb2(<<~JINJA, true, buf: '@_buf')
+  {% def hello(name) %}
+HELLO, {{name}}!
+  {% end %}
+  it's {{Time.now}}
+  {{hello "MADOKA"}}
+  Best Wishes
+JINJA
+```
