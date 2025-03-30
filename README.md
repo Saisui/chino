@@ -89,7 +89,8 @@ in __single block__, you use `{{ fun() }}`
     end
   %}
   it's {{Time.now}}
-  {{hello "MADOKA"}}
+  {# use embed #}
+  {{ hello "MADOKA" }}
   Best Wishes
 ```
 
@@ -98,10 +99,12 @@ in __box block__
 you use `{% fun() %}`
 
 ```jinja
+  {# in box block #}
   {% def hello(name) %}
-   HELLO, {{name}}!
+  HELLO, {{name}}!
   {% end %}
   it's {{Time.now}}
+  {# use single block #}
   {% hello "MADOKA" %}
   Best Wishes
 ```
@@ -109,11 +112,14 @@ you use `{% fun() %}`
 do not
 
 ```jinja
+  {# box-block with embed #}
+  {# it does not expected result #}
   {% def hello(name) %}
   HELLO, {{name}}!
   {% end %}
   it's {{Time.now}}
-  {{hello "MADOKA"}}
+  {# embed cause unexpected result #}
+  {{ hello "MADOKA" }}
   Best Wishes
 ```
 
