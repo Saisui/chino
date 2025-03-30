@@ -27,6 +27,29 @@ eval erb <<~ERB, true
 ERB
 ```
 
+## escape Terminator used string
+
+if `block: %w[{% %}], embed: %w[{{ }}], comment: %w[{# #}}]`
+
+you use
+
+```jinja
+code term: {{"\{\%"}} code {{"\%\}"}}
+embed term: {{"\{\{"}} value {{"\}\}"}}
+comment term: {{"\{\#"}} comment {{"\#\}"}}
+```
+
+you can preduce text `{%` into `{{"\{\%"}}`
+
+| term  | str | escaped |
+| - | - | - |
+| block | `{%` | `{{"\{\%"}}` |
+| | `%}` | `{{"\%\}}}` |
+| embed | `{{` | `{{"\{\{"}}` |
+|  | `}}` | `{{"\}\}"}}` |
+| comment | `{#` | `{{"\{\#"}}` |
+| | `#}` | `{{"\#\}"}}` |
+
 ## Use ERB2
 
 You can use `erb2` for more features
