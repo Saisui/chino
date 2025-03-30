@@ -82,9 +82,9 @@ _do not_
 {{take{{madoka:'homura'}}}}
 ```
 
-## Use ERB2
+## Use ERBII
 
-You can use `erb2` for more features
+You can use `erbii` for more features
 1. custom `buf` variabld
 2. custom terminators like `{%` block `%}`, `{{` embed `}}`
   `{#` comment `#}`.
