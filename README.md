@@ -1,5 +1,18 @@
 # erb
-16 lines erb render engine
+
+The 16 lines ERB fastest render engine.
+
+## features
+
+- 4 things: __static__, __single-block__, __box-block__, __embed__.
+
+- more function: __comment__, __code__, __embed__
+
+- custom buf variable, binding free.
+
+- custom terminators
+
+- fastest
 
 # USAGE
 You can use like...
