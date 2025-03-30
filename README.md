@@ -21,9 +21,10 @@ You can use `erb2` for more features
 2. custom seperators like `{%` block `%}`, `{{` embed `}}`
   `{#` comment `#}`.
 
-example:
+### example
 
 file:
+
 ```jinja
 {# file 1.jinja #}
 {% for i in 1..5 %}
@@ -34,6 +35,7 @@ like `{{"\{\{\"\\\{\\\{ value \\\}\\\}\"\}\}"}}`
 finish
 ```
 compile:
+
 ```ruby
 
 erb2(File.read('1.jinja'), true,
@@ -42,5 +44,17 @@ erb2(File.read('1.jinja'), true,
   comment: %w[{# #}]
 )
 ```
+
 will output:
+
+```markdown
+number: 1
+number: 2
+number: 3
+number: 4
+number: 5
+you can use `value is {{ value }}` to embed bracket!
+like `{{"\{\{ value \}\}"}}`
+finish
+```
 
