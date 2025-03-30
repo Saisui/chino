@@ -1,16 +1,19 @@
-def erb2(ss, trim = false, buf: "_buf",
+# BY: saisui@github.com
+# PLZ GIME MONEY! I'M POOR
+# LIVE IN NO FOOD & NO WARM
+# MAY I ALIVE IN LIGHT?
+def erbii(ss, trim = false, buf: "_buf",
   block: %w[{% %}], embed: %w[{{ }}], comment: %w[{# #}]
 )
-
   sz_blk_0 = block[0].size
   sz_blk_1 = block[1].size
   sz_emb_0 = embed[0].size
   sz_emb_1 = embed[1].size
-
-  comment ||= %W[#{block[0]}# #{block[1]}]
-  block = block.map {|s| s.gsub(/[\{\[\(\)\]\}]/) { "\\"+_1 } }
-  embed = embed.map {|s| s.gsub(/[\{\[\(\)\]\}]/) { "\\"+_1 } }
-  comment = comment.map {|s| s.gsub(/[\{\[\(\)\]\}]/) { "\\"+_1 } }
+  
+  rpa = -> (arr) { arr.map { |s| s.gsub(/[\{\[\(\)\]\}]/) { "\\"+_1 } } }
+  block = rpa.call block
+  embed = rpa.call embed
+  comment = rpa.call comment
 
   ret = ''
 
@@ -32,6 +35,5 @@ def erb2(ss, trim = false, buf: "_buf",
       ret << "#{buf} << #{s.inspect};\n"
     end
   end
-
   "# encoding: UTF-8\n#{buf} = '';\n" + ret + buf
 end
