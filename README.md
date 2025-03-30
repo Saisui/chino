@@ -1,7 +1,7 @@
 # erb
 16 lines erb render engine
 
-## USAGE
+# USAGE
 You can use like...
 ```ruby
 require './erb'
@@ -59,9 +59,7 @@ like `{{"\{\{ value \}\}"}}`
 finish
 ```
 
-## advanced usage
-
-### use Method & Callable
+## use Method & Callable
 set the buf symbol is not a `local variable`.
 could be follows:
 1. instance_variable `@_instance_buf`
