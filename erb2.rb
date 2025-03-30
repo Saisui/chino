@@ -21,7 +21,7 @@ def erb2(ss, trim = false, buf: "_buf",
   r_emb  = /^#{embed[0]}.*#{embed[1]}$/
   r_blk  = /^#{block[0]}.*#{block[1]}$/
 
-  ss.split(@r).each do |s|
+  ss.split(r).each do |s|
     case s
     when r_emb
       ret << "#{buf} << (#{s[sz_emb_0...-sz_emb_1]}).to_s;\n"
