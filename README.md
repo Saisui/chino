@@ -52,13 +52,33 @@ you can preduce text `{%` into `{{"\{\%"}}`
 
 ### Hash/Block in Embed `{{...}}`
 
-use blanks to break terminator-string.
+For shorter raw code.
+Pattern is a lazy match regular expression.
+Please use blanks to break terminator-string.
 
-you use `{{ { madoka: 'homura' } }}`
-replace of `{{{ name:'hello' }}}`
+DO
 
-you use `{{ -> { { madoka: 'homura' } }.call }}`
-to replace of `{{->{{madoka:'homura'}}}}`
+```jinja
+{{ { madoka: 'homura' } }
+```
+
+do not
+
+```jinja
+{{{ name:'hello' }}}
+```
+
+DO
+
+```jinja
+{{ -> { { madoka: 'homura' } }.call }}
+```
+
+do not
+
+```jinja
+{{->{{madoka:'homura'}}}}
+```
 
 ## Use ERB2
 
