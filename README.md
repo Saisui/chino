@@ -67,19 +67,19 @@ __DO__
 _do not_
 
 ```jinja
-{{{ name:'hello' }}}
+{{{ madoka:'homura' }}}
 ```
 
 __DO__
 
 ```jinja
-{{ -> { { madoka: 'homura' } }.call }}
+{{ take { { madoka: 'homura' } } }}
 ```
 
 _do not_
 
 ```jinja
-{{->{{madoka:'homura'}}}}
+{{take{{madoka:'homura'}}}}
 ```
 
 ## Use ERB2
