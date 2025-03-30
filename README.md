@@ -29,6 +29,8 @@ file:
 {% for i in 1..5 %}
 number: {{i}}
 {% end %}
+you can use `value is {{"\{\{ value \}\}"}}` to embed bracket!
+like `{{"\{\{\"\\\{\\\{ value \\\}\\\}\"\}\}"}}`
 finish
 ```
 compile:
@@ -40,3 +42,5 @@ erb2(File.read('1.jinja'), true,
   comment: %w[{# #}]
 )
 ```
+will output:
+
