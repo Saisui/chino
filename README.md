@@ -18,7 +18,7 @@ ERB
 
 You can use `erb2` for more features
 1. custom `buf` variabld
-2. custom seperators like `{%` block `%}`, `{{` embed `}}`
+2. custom terminators like `{%` block `%}`, `{{` embed `}}`
   `{#` comment `#}`.
 
 ### example
@@ -30,7 +30,7 @@ file:
 {% for i in 1..5 %}
 number: {{i}}
 {% end %}
-you can use `value is {{"\{\{ value \}\}"}}` to embed bracket!
+you can use `value is {{"\{\{ value \}\}"}}` to terminators bracket!
 like `{{"\{\{\"\\\{\\\{ value \\\}\\\}\"\}\}"}}`
 finish
 ```
@@ -54,7 +54,7 @@ number: 2
 number: 3
 number: 4
 number: 5
-you can use `value is {{ value }}` to embed bracket!
+you can use `value is {{ value }}` to embed terminators!
 like `{{"\{\{ value \}\}"}}`
 finish
 ```
@@ -68,13 +68,61 @@ could be follows:
 2. class_variable `@@_class_buf`
 3. global_variable `$_global_buf`
 
+when you call a callable, if it is in a __box block__,
+it must be in a pair of __BLOCK__ terminator.
+
+such as `let's {% hello("MADOKA") %}`
+
+it does...
+
 ```ruby
+erb2(File.read('2.jinja'), true, buf: '@_buf')
+```
+
+when define...
+
+in __single block__, you use `{{ fun() }}`
+
+jinja
+```
+  {# in single block #}
+  {%
+    def hello(name)
+      "HELLO, #{name}!"
+    end
+  %}
+  it's {{Time.now}}
+  {{hello "MADOKA"}}
+  Best Wishes
+JINJA
+```
+
+in __box block__
+
+you use `{% fun() %}`
+
+``ruby
 erb2(<<~JINJA, true, buf: '@_buf')
   {% def hello(name) %}
-HELLO, {{name}}!
+   HELLO, {{name}}!
+  {% end %}
+  it's {{Time.now}}
+  {% hello "MADOKA" %}
+  Best Wishes
+JINJA
+```
+
+do not
+
+```ruby
+erb2(<<~JINJA, true, buf: '@_buf')
+  {% def hello(name)
+  HELLO, {{name}}!
   {% end %}
   it's {{Time.now}}
   {{hello "MADOKA"}}
   Best Wishes
 JINJA
 ```
+
+because it cause 2 times `buf` push.
