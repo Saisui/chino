@@ -13,7 +13,7 @@ def erb2(ss, trim = false, buf: "_buf",
 
   ret = ''
 
-  r = trim ? /(?:\n *)?(#{block[0]}.*?#{block[1]})|(#{embed[0]}.*?#{embed[1]})|(?:\n *)?(#{comment[0]}.*?#{comment[1]})/
+  r = trim ? /(?:^\s*)?(#{block[0]}.*?#{block[1]})\s*\n?|(#{embed[0]}.*?#{embed[1]})|(?:^\s*)?(#{comment[0]}.*?#{comment[1]})\s*\n?/
            : /(#{block[0]}.*?#{block[1]})|(#{embed[0]}.*?#{embed[1]})|(#{comment[0]}.*?#{comment[1]})/
 
 
@@ -21,7 +21,7 @@ def erb2(ss, trim = false, buf: "_buf",
   r_emb  = /^#{embed[0]}.*#{embed[1]}$/
   r_blk  = /^#{block[0]}.*#{block[1]}$/
 
-  ss.split(@r).each do |s|
+  ss.split(r).each do |s|
     case s
     when r_emb
       ret << "#{buf} << (#{s[sz_emb_0...-sz_emb_1]}).to_s;\n"
