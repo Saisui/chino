@@ -53,28 +53,30 @@ you can preduce text `{%` into `{{"\{\%"}}`
 ### Hash/Block in Embed `{{...}}`
 
 For shorter raw code.
+
 Pattern is a lazy match regular expression.
+
 Please use blanks to break terminator-string.
 
-DO
+__DO__
 
 ```jinja
 {{ { madoka: 'homura' } }
 ```
 
-do not
+_do not_
 
 ```jinja
 {{{ name:'hello' }}}
 ```
 
-DO
+__DO__
 
 ```jinja
 {{ -> { { madoka: 'homura' } }.call }}
 ```
 
-do not
+_do not_
 
 ```jinja
 {{->{{madoka:'homura'}}}}
