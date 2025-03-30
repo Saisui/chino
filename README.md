@@ -59,9 +59,9 @@ like `{{"\{\{ value \}\}"}}`
 finish
 ```
 
-### advanced usage
+## advanced usage
 
-#### use defined method
+### use Method & Callable
 set the buf symbol is not a `local variable`.
 could be follows:
 1. instance_variable `@_instance_buf`
@@ -93,14 +93,13 @@ in __single block__, you use `{{ fun() }}`
   it's {{Time.now}}
   {{hello "MADOKA"}}
   Best Wishes
-JINJA
 ```
 
 in __box block__
 
 you use `{% fun() %}`
 
-``jinja
+```jinja
   {% def hello(name) %}
    HELLO, {{name}}!
   {% end %}
@@ -112,7 +111,7 @@ you use `{% fun() %}`
 do not
 
 ```jinja
-  {% def hello(name)
+  {% def hello(name) %}
   HELLO, {{name}}!
   {% end %}
   it's {{Time.now}}
@@ -120,4 +119,4 @@ do not
   Best Wishes
 ```
 
-because it cause 2 times `buf` push.
+because it cause __2 times__ of `buf` push.
