@@ -1,6 +1,6 @@
-# erb
+# ERB / EJS
 
-The 16 lines ERB fastest render engine.
+The 16 lines ERB/EJS fastest render engine.
 
 ## features
 
@@ -133,6 +133,7 @@ could be follows:
 1. instance_variable `@_instance_buf`
 2. class_variable `@@_class_buf`
 3. global_variable `$_global_buf`
+4. __EJS__ use option `{ global: false, local: true, here: this}`
 
 when you call a callable, if it is in a __box block__,
 it must be in a pair of __BLOCK__ terminator.
