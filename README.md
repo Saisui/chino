@@ -83,8 +83,7 @@ when define...
 
 in __single block__, you use `{{ fun() }}`
 
-jinja
-```
+```jinja
   {# in single block #}
   {%
     def hello(name)
@@ -101,28 +100,24 @@ in __box block__
 
 you use `{% fun() %}`
 
-``ruby
-erb2(<<~JINJA, true, buf: '@_buf')
+``jinja
   {% def hello(name) %}
    HELLO, {{name}}!
   {% end %}
   it's {{Time.now}}
   {% hello "MADOKA" %}
   Best Wishes
-JINJA
 ```
 
 do not
 
-```ruby
-erb2(<<~JINJA, true, buf: '@_buf')
+```jinja
   {% def hello(name)
   HELLO, {{name}}!
   {% end %}
   it's {{Time.now}}
   {{hello "MADOKA"}}
   Best Wishes
-JINJA
 ```
 
 because it cause 2 times `buf` push.
