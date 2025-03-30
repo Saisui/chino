@@ -50,6 +50,16 @@ you can preduce text `{%` into `{{"\{\%"}}`
 | comment | `{#` | `{{"\{\#"}}` |
 | | `#}` | `{{"\#\}"}}` |
 
+### Hash/Block in Embed `{{...}}`
+
+use blanks to break terminator-string.
+
+you use `{{ { madoka: 'homura' } }}`
+replace of `{{{ name:'hello' }}}`
+
+you use `{{ -> { { madoka: 'homura' } }.call }}`
+to replace of `{{->{{madoka:'homura'}}}}`
+
 ## Use ERB2
 
 You can use `erb2` for more features
