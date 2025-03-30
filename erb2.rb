@@ -1,4 +1,4 @@
-def jinja(ss, trim = false, buf: "_buf",
+def erb2(ss, trim = false, buf: "_buf",
   block: %w[{% %}], embed: %w[{{ }}], comment: %w[{# #}]
 )
   sz_blk_0 = block[0].size
@@ -33,8 +33,4 @@ def jinja(ss, trim = false, buf: "_buf",
     end
   end
   "# encoding: UTF-8\n#{buf} = '';\n" + ret + buf
-end
-
-def jinjax ss
-  jinja ss, true
 end
