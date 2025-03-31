@@ -75,7 +75,8 @@ ${[[1, 'coffee'], [2, 'cola'], [3, 'cha']].map( ([i, drink]) => {
 ommit code-whole line, default false.
 
 ```js
-chino("what number?\n<% let a = 3 %>\nnumber is {{ a }}", { trim: true })
+let template = "what number?\n<% let a = 3 %>\nnumber is {{ a }}"
+chino(template, { trim: true })
 ```
 
 will be
@@ -118,8 +119,8 @@ chino(fs, {
 list of custom examples
 
 - __block__: `<%`, `%>`; `{%`, `%}`; `[%`, `%]`; `(%`, `%)` ...etc
-- __embed__: `<%=`, `%>`; `{{`, `}}`, `{=`, `=}` ... etc
-- __comment__: `<%#`, `%>`; `<#`, `#>`, `(#`, `#)` ... etc
+- __embed__: `<%=`, `%>`; `{{`, `}}`; `{=`, `=}` ... etc
+- __comment__: `<%#`, `%>`; `<#`, `#>`; `(#`, `#)` ... etc
 
 __TIPS__: terminator should be at least 2 characters,
 
