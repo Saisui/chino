@@ -26,8 +26,8 @@ eval chino(File.read('hello.chino'), true)
 
 - 4 things
   - __static__
-  - __single-block__
-  - __box-block__
+  - __single-code__
+  - __block-code__
   - __embed__
 
 - more function:
@@ -72,7 +72,7 @@ you can preduce text `{%` into `{{"\{\%"}}`
 
 | term  | str | escaped |
 | - | - | - |
-| block | `{%` | `{{"\{\%"}}` |
+| code | `{%` | `{{"\{\%"}}` |
 | | `%}` | `{{"\%\}}}` |
 | embed | `{{` | `{{"\{\{"}}` |
 |  | `}}` | `{{"\}\}"}}` |
@@ -137,7 +137,7 @@ compile:
 
 eval chino(File.read('1.chino'), true,
   buf: '_buf',
-  block: %w[{% %}],
+  code: %w[{% %}],
   embed: %w[{{ }}],
   comment: %w[{# #}]
 )
@@ -198,7 +198,7 @@ chino(File.read('2.chino'), true, buf: '@_buf')
 
 when define...
 
-__DO__ _single block_ `{% def fun(); ... ;end %}`
+__DO__ _single code_ `{% def fun(); ... ;end %}`
 
 ```jinja
   {%
@@ -212,7 +212,7 @@ __USE__ _embed_ `{{fun()}}`
   {{ hello "MADOKA" }}
 ```
 
-__DO__ _box block_ `{% def fun %} ... {% end %}`
+__DO__ _block code_ `{% def fun %} ... {% end %}`
 
 ```jinja
   {% def hello(name) %}
@@ -220,7 +220,7 @@ __DO__ _box block_ `{% def fun %} ... {% end %}`
   {% end %}
 ```
 
-__USE__ _single block_ `{% fun() %}`
+__USE__ _single code_ `{% fun() %}`
 
 ```jinja
   {% hello "MADOKA" %}
@@ -229,7 +229,7 @@ __USE__ _single block_ `{% fun() %}`
 _DO NOT_
 
 ```jinja
-  {# box-block with embed #}
+  {# block code with embed #}
   {# it does not expected result #}
 
   {% def hello(name) %}
