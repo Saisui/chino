@@ -8,9 +8,9 @@
  * @param {string} ss - template text
  * @param {object} opt
  * @param {boolean} [opt.trim = false] - ommit block's blanks
- * @param {[string, string]} [opt.block=['{%','%}']] - block terminator,
+ * @param {[string, string]} [opt.block = ['{%','%}']] - block terminators
  * @param {[string, string]} [opt.embed = ['{{','}}']] - embed terminators
- * @param {[string, string]} [comment: ['{#','#}']] - comment terminators
+ * @param {[string, string]} [opt.comment = ['{#','#}']] - comment terminators
  * @param {string} [opt.buf = '_buf'] - buf varname
  *
  * @return {string} eval_code - eval it to compile the template into result.
