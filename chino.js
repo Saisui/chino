@@ -27,9 +27,8 @@ export function chino(ss, opt = {}) {
   let sz_emb_0 = embed[0].length
   let sz_emb_1 = embed[1].length
   let rpa = arr => arr.map( s =>
-    s.replaceAll(/[\{\[\(\)\]\}]/g, e => {
-      return "\\"+e })
-    )
+    s.replaceAll(/[\{\[\(\)\]\}]/g, e => { return "\\"+e })
+  )
 
   block = rpa(block)
   embed = rpa(embed)
