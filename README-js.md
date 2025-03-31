@@ -45,6 +45,51 @@ Hello, IROHA!
 It's Mon Apr 1 2025 00:00:00 GST (Greenwich Standard Time)!
 ```
 
-## USAGE
+# CHINO vs. Vanilla Template String
+
+USE __CHINO__ 🍵
+
+```erb
+Chino's Meal
+<% for(let i, drink in ['coffee', 'cola', 'cha']) { %>
+Day {{ i+1 }}, Chino Drink {{drink}}!
+<% } %>
+```
+
+WITHOUT __CHINO__ 🍼
+
+_nest hill_
+
+```js
+`Chino's Meal
+${[[1, 'coffee'], [2, 'cola'], [3, 'cha']].map( ([i, drink]) => {
+    return `Day ${i}, Chino Drink ${drink}!\n`
+  }).join("")
+}`
+```
+
+# USAGE
+
+## USE function
+
+### Block Code
+
+```erb
+<% function hello(name) { %>
+Hello, {{name}}!
+<% } %>
+
+<% hello('MADOKA') %>
+```
+### Single Code
+
+```erb
+<% let hello = name => `hello, ${name}!` %>
+{{hello('homura')}}
+```
+
+## escape
+
+# USAGE
 
 see <a href="README.md">ruby README</a> also
