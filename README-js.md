@@ -1,5 +1,11 @@
 # CHINO - the Better EJS
 
+<img src="https://media3.giphy.com/media/qTeLrzpDZBY2c/giphy.gif"/>
+
+Just Cappuccino! ☕
+
+30 lines most tiny template lib!
+
 ## Have a LOOK
 
 file:
