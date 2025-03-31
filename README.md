@@ -87,7 +87,7 @@ Pattern is a lazy match regular expression.
 
 Please use blanks to break terminator-string.
 
-__DO__
+#### __DO__
 
 ```jinja
 {{ { madoka: 'homura' } }
@@ -99,7 +99,7 @@ _do not_
 {{{ madoka:'homura' }}}
 ```
 
-__DO__
+#### __DO__
 
 ```jinja
 {{ take { { madoka: 'homura' } } }}
@@ -179,7 +179,7 @@ when define...
 
 in __single block__: `{% def ... end %}`
 
-use `{{ fun() }}`
+__DO__ `{{ fun() }}`
 
 ```jinja
   {# in single block #}
@@ -196,7 +196,7 @@ use `{{ fun() }}`
 
 in __box block__ `{% def %} ... {% end %}`
 
-USE `{% fun() %}`
+__DO__ `{% fun() %}`
 
 ```jinja
   {# in box block #}
@@ -211,7 +211,7 @@ USE `{% fun() %}`
   Best Wishes
 ```
 
-DO NOT
+_DO NOT_
 
 ```jinja
   {# box-block with embed #}
