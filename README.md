@@ -6,6 +6,8 @@ Just Cappuccino! 🍉
 
 The 16 lines ERB/EJS fastest render engine.
 
+also see <a href="README-js.md">js version</a>
+
 ## Have a LOOK
 
 ```jinja
