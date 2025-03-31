@@ -37,12 +37,12 @@ export function chino(ss, opt = {}) {
   comment = rpa(comment)
 
   let ret = '';
-  let r = trim ? (new RegExp(`(?:^\s*)?(${block[0]}(?:.|\s)*?${block[1]})\s*\n?|(${embed[0]}(?:.|\s)*?${embed[1]})|(?:^\s*)?(${comment[0]}.*?${comment[1]})\s*\n?`, 'g'))
-               : (new RegExp(`(${block[0]}(?:.|\s)*?${block[1]})|(${embed[0]}(?:.|\s)*?${embed[1]})|(${comment[0]}(?:.|\s)*?${comment[1]})`, 'g'))
+  let r = trim ? (new RegExp(`(?:^\\s*)?(${block[0]}(?:.|\\s)*?${block[1]})\\s*\\n?|(${embed[0]}(?:.|\\s)*?${embed[1]})|(?:^\\s*)?(${comment[0]}.*?${comment[1]})\\s*\n?`, 'g'))
+               : (new RegExp(`({${block[0]}(?:.|\\s)*?${block[1]})|(${embed[0]}(?:.|\\s)*?${embed[1]})|(${comment[0]}(?:.|\s)*?${comment[1]})`, 'g'))
 
-  let r_cmt = new RegExp(`^${comment[0]}(?:.|\s)*${comment[1]}$`)
-  let r_emb = new RegExp(`^${embed[0]}(?:.|\s)*${embed[1]}$`)
-  let r_blk = new RegExp(`^${block[0]}(?:.|\s)*${block[1]}$`)
+  let r_cmt = new RegExp(`^${comment[0]}(?:.|\\s)*${comment[1]}$`)
+  let r_emb = new RegExp(`^${embed[0]}(?:.|\\s)*${embed[1]}$`)
+  let r_blk = new RegExp(`^${block[0]}(?:.|\\s)*${block[1]}$`)
 
   ss.split(r).filter(e=>e).map( s => {
 
