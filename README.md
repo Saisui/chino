@@ -157,19 +157,40 @@ finish
 ```
 
 ## use Method & Callable
-set the buf symbol is not a `local variable`.
+
+### custom buf variable name
+
+To use METHOD, __buf symbol__ must is not a `local variable`.
+
 could be follows:
 1. instance_variable `@_instance_buf`
 2. class_variable `@@_class_buf`
 3. global_variable `$_global_buf`
 4. __EJS__ use option `{ global: false, local: true, here: this}`
 
+### USE METHOD
+
+renderer code should be...
+
+```ruby
+eval chino(fs, buf: '@_buf')
+
+eval chino(fs, buf: '@@_buf')
+
+eval chino(fs, buf: '$_buf')
+
+# local variable will error..
+eval chino(fs, buf: '_buf')
+```
+
+### USE CALLABLE
+
 when you call a callable, if it is in a __box block__,
 it must be in a pair of __BLOCK__ terminator.
 
 such as `let's {% hello("MADOKA") %}`
 
-it does...
+#### example
 
 ```ruby
 chino(File.read('2.chino'), true, buf: '@_buf')
