@@ -20,9 +20,9 @@ def chino(ss, trim = false, buf: "_buf",
   r = trim ? /(?:^\s*)?(#{block[0]}.*?#{block[1]})\s*\n?|(#{embed[0]}.*?#{embed[1]})|(?:^\s*)?(#{comment[0]}.*?#{comment[1]})\s*\n?/
            : /(#{block[0]}.*?#{block[1]})|(#{embed[0]}.*?#{embed[1]})|(#{comment[0]}.*?#{comment[1]})/
 
-  r_cmt  = /^#{comment[0]}.*#{comment[1]}$/
-  r_emb  = /^#{embed[0]}.*#{embed[1]}$/
-  r_blk  = /^#{block[0]}.*#{block[1]}$/
+  r_cmt = /^#{comment[0]}.*#{comment[1]}$/
+  r_emb = /^#{embed[0]}.*#{embed[1]}$/
+  r_blk = /^#{block[0]}.*#{block[1]}$/
 
   ss.split(r).each do |s|
     case s
