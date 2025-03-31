@@ -70,6 +70,21 @@ ${[[1, 'coffee'], [2, 'cola'], [3, 'cha']].map( ([i, drink]) => {
 
 # USAGE
 
+## Trim Mode
+
+ommit code-whole line, default false.
+
+```js
+chino("what number?\n<% let a = 3 %>\nnumber is {{ a }}", { trim: true })
+```
+
+will be
+
+```text
+what number?
+number is 3
+```
+
 ## USE function
 
 ### Block Code
@@ -88,8 +103,71 @@ Hello, {{name}}!
 {{hello('homura')}}
 ```
 
-## escape
+## custom terminators
 
-# USAGE
+custom terminator to aspect source text.
+
+```js
+chino(fs, {
+  block: ['<%','%>'],
+  embed: ['{{','}}'],,
+  comment: ['{#','#}'],
+})
+```
+
+list of custom examples
+
+- __block__: `<%`, `%>`; `{%`, `%}`; `[%`, `%]`; `(%`, `%)` ...etc
+- __embed__: `<%=`, `%>`; `{{`, `}}`, `{=`, `=}` ... etc
+- __comment__: `<%#`, `%>`; `<#`, `#>`, `(#`, `#)` ... etc
+
+__TIPS__: terminator should be at least 2 characters,
+
+and not frequency string.
+
+## escape
+you can preduce text `<%` into `{{"\<\%"}}`
+
+| term  | str | escaped |
+| - | - | - |
+| code | `<%` | `{{"\<\%"}}` |
+| | `%>` | `{{"\%\>}}` |
+| embed | `{{` | `{{"\{\{"}}` |
+|  | `}}` | `{{"\}\}"}}` |
+| comment | `<#` | `{{"\<\#"}}` |
+| | `#}` | `{{"\#\>"}}` |
+
+### Object/Scope in Embed `{{...}}`
+
+For shorter raw code.
+
+Pattern is a lazy match regular expression.
+
+Please use blanks to break terminator-string.
+
+#### __DO__
+
+```jinja
+{{ { madoka: 'homura' } }
+```
+
+_do not_
+
+```jinja
+{{{ madoka:'homura' }}}
+```
+
+#### __DO__
+
+```jinja
+{{ function() { return { madoka: 'homura' } } }}
+```
+
+_do not_
+
+```jinja
+{{function(){ return {madoka:'homura'}}}}
+```
+### more usage
 
 see <a href="README.md">ruby README</a> also
