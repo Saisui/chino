@@ -29,7 +29,7 @@
 
 %>
 
-function chino(ss) {
+export function chino(ss) {
   ss.split({{r}}).filter(e=>e).map( s => {
 
     if(s.match({{r_emb}})) {
