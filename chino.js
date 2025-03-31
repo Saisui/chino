@@ -38,9 +38,9 @@ export function chino(ss, opt = {}) {
   let r = trim ? (new RegExp(`(?:^\s*)?(${block[0]}.*?${block[1]})\s*\n?|(${embed[0]}.*?${embed[1]})|(?:^\s*)?(${comment[0]}.*?${comment[1]})\s*\n?`, 'g'))
                : (new RegExp(`(${block[0]}.*?${block[1]})|(${embed[0]}.*?${embed[1]})|(${comment[0]}.*?${comment[1]})`, 'g'))
 
-  let r_cmt  = new RegExp(`^${comment[0]}.*${comment[1]}$`)
-  let r_emb  = new RegExp(`^${embed[0]}.*${embed[1]}$`)
-  let r_blk  = new RegExp(`^${block[0]}.*${block[1]}$`)
+  let r_cmt = new RegExp(`^${comment[0]}.*${comment[1]}$`)
+  let r_emb = new RegExp(`^${embed[0]}.*${embed[1]}$`)
+  let r_blk = new RegExp(`^${block[0]}.*${block[1]}$`)
 
   ss.split(r).filter(e=>e).map( s => {
 
