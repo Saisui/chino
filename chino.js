@@ -15,12 +15,12 @@
  *
  * @return {string} eval_code - eval it to compile the template into result.
  */
-export function ejs(ss, opt = {}) {
+export function chino(ss, opt = {}) {
   let trim = opt.trim ?? false
-  let block = opt.block ?? ["{%", "%}"]
-  let embed = opt.embed ?? ["{{", "}}"]
+  let block = opt.block ?? ['{%','%}']
+  let embed = opt.embed ?? ['{{','}}']
   let buf = opt.buf ?? "_buf"
-  let comment = opt.comment ?? ["{#", "#}"]
+  let comment = opt.comment ?? ['{#','#}']
 
   let sz_blk_0 = block[0].length
   let sz_blk_1 = block[1].length
