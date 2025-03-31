@@ -1,5 +1,7 @@
 # CHINO - the better ERB / EJS
+
 <img src="https://media3.giphy.com/media/qTeLrzpDZBY2c/giphy.gif"/>
+
 Just Cappuccino! 🍉
 
 The 16 lines ERB/EJS fastest render engine.
