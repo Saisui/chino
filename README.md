@@ -170,7 +170,7 @@ could be follows:
 
 ### USE METHOD
 
-renderer code should be...
+#### renderer code should be...
 
 ```ruby
 eval chino(fs, buf: '@_buf')
@@ -179,18 +179,18 @@ eval chino(fs, buf: '@@_buf')
 
 eval chino(fs, buf: '$_buf')
 
-# local variable will error..
+# local variable will error...
 eval chino(fs, buf: '_buf')
 ```
 
-### USE CALLABLE
+#### Defination & CALL
 
 when you call a callable, if it is in a __box block__,
 it must be in a pair of __BLOCK__ terminator.
 
 such as `let's {% hello("MADOKA") %}`
 
-#### example
+__renderer__
 
 ```ruby
 chino(File.read('2.chino'), true, buf: '@_buf')
