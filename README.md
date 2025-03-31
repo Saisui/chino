@@ -10,7 +10,7 @@ The 16 lines ERB/EJS fastest render engine.
 
 ```jinja
 {# file: hello.chino #}
-{% @mahou.each do |shoujo|%}
+{% @mahou.each do |shoujo| %}
 Hello, {{shoujo}}!
 {% end %}
 It's {{Time.now}}
