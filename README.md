@@ -198,38 +198,32 @@ chino(File.read('2.chino'), true, buf: '@_buf')
 
 when define...
 
-in __single block__: `{% def ... end %}`
-
-__DO__ `{{ fun() }}`
+__DO__ _single block_ `{% def fun(); ... ;end %}`
 
 ```jinja
-  {# in single block #}
   {%
     def hello(name)
       "HELLO, #{name}!"
     end
   %}
-
-  {# use embed #}
+```
+__USE__ _embed_ `{{fun()}}`
+```jinja
   {{ hello "MADOKA" }}
-  Best Wishes
 ```
 
-in __box block__ `{% def %} ... {% end %}`
-
-__DO__ `{% fun() %}`
+__DO__ _box block_ `{% def fun %} ... {% end %}`
 
 ```jinja
-  {# in box block #}
-
   {% def hello(name) %}
   HELLO, {{name}}!
   {% end %}
+```
 
-  {# use single block #}
+__USE__ _single block_ `{% fun() %}`
+
+```jinja
   {% hello "MADOKA" %}
-
-  Best Wishes
 ```
 
 _DO NOT_
