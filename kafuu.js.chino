@@ -1,0 +1,45 @@
+<# This is a preduce js. It compile itself. #>
+<%
+  let trim = false
+  let block = ['<'+'%','%'+'>']
+  let embed = ['{'+'{','}'+'}']
+  let comment = ['<'+'#','#'+'>']
+  let asn = 'let'
+  let buf = '_buf'
+
+  let sz_blk_0 = block[0].length
+  let sz_blk_1 = block[1].length
+  let sz_emb_0 = embed[0].length
+  let sz_emb_1 = embed[1].length
+  let rpa = arr => arr.map( s =>
+    s.replaceAll(/[\{\[\(\)\]\}]/g, e => { return "\\"+e })
+  )
+
+  block = rpa(block)
+  embed = rpa(embed)
+  comment = rpa(comment)
+
+  let ret = '';
+  let r = trim ? (new RegExp(`(?:^\s*)?(${block[0]}(?:.|\s)*?${block[1]})\s*\n?|(${embed[0]}(?:.|\s)*?${embed[1]})|(?:^\s*)?(${comment[0]}(?:.|\s)*?${comment[1]})\s*\n?`, 'g'))
+               : (new RegExp(`(${block[0]}(?:.|\s)*?${block[1]})|(${embed[0]}(?:.|\s)*?${embed[1]})|(${comment[0]}(?:.|\s)*?${comment[1]})`, 'g'))
+
+  let r_cmt = new RegExp(`^${comment[0]}(?:.|\s)*${comment[1]}$`)
+  let r_emb = new RegExp(`^${embed[0]}(?:.|\s)*${embed[1]}$`)
+  let r_blk = new RegExp(`^${block[0]}(?:.|\s)*${block[1]}$`)
+
+%>
+
+function chino(ss) {
+  ss.split({{r}}).filter(e=>e).map( s => {
+
+    if(s.match({{r_emb}})) {
+      ret += `{{buf}} += (${s.slice({{sz_emb_0}},{{-sz_emb_1}})}).toString();\n`;
+    } else if(s.match({{r_cmt}})) {
+    } else if(s.match({{r_blk}})) {
+      ret += s.slice({{sz_blk_0}}, {{-sz_blk_1}}) + ";\n";
+    } else {
+      ret += `{{buf}} += ${JSON.stringify(s)};\n`
+    }
+  });
+  return `{{asn}} {{buf}} = '';\n` + ret + "{{buf}}";
+}
