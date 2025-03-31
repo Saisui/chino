@@ -3,7 +3,7 @@
 # LIVE IN NO FOOD & NO WARM
 # MAY I ALIVE IN LIGHT?
 def chino(ss, trim = false, buf: "_buf",
-  block: ['{%','%}'], embed: %w['{{','}}'], comment: %w['{#','#}']
+  block: ['{%','%}'], embed: ['{{','}}'], comment: ['{#','#}']
 )
   sz_blk_0 = block[0].size
   sz_blk_1 = block[1].size
@@ -17,12 +17,12 @@ def chino(ss, trim = false, buf: "_buf",
 
   ret = ''
 
-  r = trim ? /(?:^\s*)?(#{block[0]}.*?#{block[1]})\s*\n?|(#{embed[0]}.*?#{embed[1]})|(?:^\s*)?(#{comment[0]}.*?#{comment[1]})\s*\n?/
-           : /(#{block[0]}.*?#{block[1]})|(#{embed[0]}.*?#{embed[1]})|(#{comment[0]}.*?#{comment[1]})/
+  r = trim ? /(?:^\s*)?(#{block[0]}(?:.|\s)*?#{block[1]})\s*\n?|(#{embed[0]}(?:.|\s)*?#{embed[1]})|(?:^\s*)?(#{comment[0]}(?:.|\s)*?#{comment[1]})\s*\n?/
+           : /(#{block[0]}(?:.|\s)*?#{block[1]})|(#{embed[0]}(?:.|\s)*?#{embed[1]})|(#{comment[0]}(?:.|\s)*?#{comment[1]})/
 
-  r_cmt = /^#{comment[0]}.*#{comment[1]}$/
-  r_emb = /^#{embed[0]}.*#{embed[1]}$/
-  r_blk = /^#{block[0]}.*#{block[1]}$/
+  r_cmt = /^#{comment[0]}(?:.|\s)*#{comment[1]}$/
+  r_emb = /^#{embed[0]}(?:.|\s)*#{embed[1]}$/
+  r_blk = /^#{block[0]}(?:.|\s)*#{block[1]}$/
 
   ss.split(r).each do |s|
     case s
