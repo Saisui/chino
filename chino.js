@@ -12,6 +12,7 @@
  * @param {[string, string]} [opt.embed = ['{{','}}']] - embed terminators
  * @param {[string, string]} [opt.comment = ['{#','#}']] - comment terminators
  * @param {string} [opt.buf = '_buf'] - buf varname
+ * @param {"let" | "var" | ""} [opt.asn = "let"] - assgin of _buf
  *
  * @return {string} eval_code - eval it to compile the template into result.
  */
@@ -21,6 +22,7 @@ export function chino(ss, opt = {}) {
   let embed = opt.embed ?? ['{{','}}']
   let buf = opt.buf ?? "_buf"
   let comment = opt.comment ?? ['{#','#}']
+  let asn = opt.asn ?? 'let'
 
   let sz_blk_0 = block[0].length
   let sz_blk_1 = block[1].length
@@ -53,5 +55,5 @@ export function chino(ss, opt = {}) {
       ret += `${buf} += ${JSON.stringify(s)};\n`
     }
   });
-  return `let ${buf} = '';\n` + ret + buf;
+  return `${asn} ${buf} = '';\n` + ret + buf;
 }
