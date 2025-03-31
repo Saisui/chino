@@ -17,7 +17,7 @@ It's {{Time.now}}
 ```
 
 ```ruby
-# world.rb
+# file: world.rb
 @mahou = %w[madoka homura sayaka kyoko mami]
 eval chino(File.read('hello.chino'), true)
 ```
