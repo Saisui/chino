@@ -6,6 +6,22 @@ Just Cappuccino! 🍉
 
 The 16 lines ERB/EJS fastest render engine.
 
+## Have a LOOK
+
+```jinja
+{# file: hello.chino #}
+{% @mahou.each do |shoujo|%}
+Hello, {{shoujo}}!
+{% end %}
+It's {{Time.now}}
+```
+
+```ruby
+# world.rb
+@mahou = %w[madoka homura sayaka kyoko mami]
+eval chino(File.read('1.chino'), true)
+```
+
 ## features
 
 - 4 things
@@ -119,7 +135,7 @@ compile:
 
 ```ruby
 
-eval erb2(File.read('1.jinja'), true,
+eval chino(File.read('1.jinja'), true,
   buf: '_buf',
   block: %w[{% %}],
   embed: %w[{{ }}],
