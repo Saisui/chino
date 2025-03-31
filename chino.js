@@ -8,9 +8,9 @@
  * @param {string} ss - template text
  * @param {object} opt
  * @param {boolean} [opt.trim = false] - ommit block's blanks
- * @param {[string, string]} [opt.block = ['{%','%}']] - block terminators
+ * @param {[string, string]} [opt.block = ['<%','%>']] - block terminators
  * @param {[string, string]} [opt.embed = ['{{','}}']] - embed terminators
- * @param {[string, string]} [opt.comment = ['{#','#}']] - comment terminators
+ * @param {[string, string]} [opt.comment = ['<#','#>']] - comment terminators
  * @param {string} [opt.buf = '_buf'] - buf varname
  * @param {"let" | "var" | ""} [opt.asn = "let"] - assgin of _buf
  *
@@ -18,10 +18,10 @@
  */
 export function chino(ss, opt = {}) {
   let trim = opt.trim ?? false
-  let block = opt.block ?? ['{%','%}']
+  let block = opt.block ?? ['<%','%>']
   let embed = opt.embed ?? ['{{','}}']
   let buf = opt.buf ?? "_buf"
-  let comment = opt.comment ?? ['{#','#}']
+  let comment = opt.comment ?? ['<#','#>']
   let asn = opt.asn ?? 'let'
 
   let sz_blk_0 = block[0].length
