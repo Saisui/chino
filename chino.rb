@@ -2,8 +2,8 @@
 # PLZ GIME MONEY! I'M POOR
 # LIVE IN NO FOOD & NO WARM
 # MAY I ALIVE IN LIGHT?
-def erbii(ss, trim = false, buf: "_buf",
-  block: %w[{% %}], embed: %w[{{ }}], comment: %w[{# #}]
+def chino(ss, trim = false, buf: "_buf",
+  block: ['{%','%}'], embed: %w['{{','}}'], comment: %w['{#','#}']
 )
   sz_blk_0 = block[0].size
   sz_blk_1 = block[1].size
