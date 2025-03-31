@@ -172,7 +172,7 @@ such as `let's {% hello("MADOKA") %}`
 it does...
 
 ```ruby
-erb2(File.read('2.jinja'), true, buf: '@_buf')
+chino(File.read('hi.chino'), true, buf: '@_buf')
 ```
 
 when define...
