@@ -8,13 +8,22 @@ The 16 lines ERB/EJS fastest render engine.
 
 ## features
 
-- 4 things: __static__, __single-block__, __box-block__, __embed__.
+- 4 things
+  - __static__
+  - __single-block__
+  - __box-block__
+  - __embed__
 
-- more function: __comment__, __code__, __embed__
+- more function:
+  - __comment__
+  - __code__
+  - __embed__
 
 - custom buf variable, binding free.
 
 - custom terminators
+
+- easy escape
 
 - fastest
 
@@ -86,9 +95,9 @@ _do not_
 {{take{{madoka:'homura'}}}}
 ```
 
-## Use ERBII
+## Use CHINO
 
-You can use `erbii` for more features
+You can use `chino` for more features
 1. custom `buf` variabld
 2. custom terminators like `{%` block `%}`, `{{` embed `}}`
   `{#` comment `#}`.
@@ -152,7 +161,9 @@ erb2(File.read('2.jinja'), true, buf: '@_buf')
 
 when define...
 
-in __single block__, you use `{{ fun() }}`
+in __single block__: `{% def ... end %}`
+
+use `{{ fun() }}`
 
 ```jinja
   {# in single block #}
@@ -161,38 +172,42 @@ in __single block__, you use `{{ fun() }}`
       "HELLO, #{name}!"
     end
   %}
-  it's {{Time.now}}
+
   {# use embed #}
   {{ hello "MADOKA" }}
   Best Wishes
 ```
 
-in __box block__
+in __box block__ `{% def %} ... {% end %}`
 
-you use `{% fun() %}`
+USE `{% fun() %}`
 
 ```jinja
   {# in box block #}
+
   {% def hello(name) %}
   HELLO, {{name}}!
   {% end %}
-  it's {{Time.now}}
+
   {# use single block #}
   {% hello "MADOKA" %}
+
   Best Wishes
 ```
 
-do not
+DO NOT
 
 ```jinja
   {# box-block with embed #}
   {# it does not expected result #}
+
   {% def hello(name) %}
   HELLO, {{name}}!
   {% end %}
-  it's {{Time.now}}
+
   {# embed cause unexpected result #}
   {{ hello "MADOKA" }}
+
   Best Wishes
 ```
 
