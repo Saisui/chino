@@ -137,7 +137,7 @@ compile:
 
 eval chino(File.read('1.chino'), true,
   buf: '_buf',
-  code: %w[{% %}],
+  block: %w[{% %}],
   embed: %w[{{ }}],
   comment: %w[{# #}]
 )
