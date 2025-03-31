@@ -123,7 +123,7 @@ You can use `chino` for more features
 file:
 
 ```jinja
-{# file 1.jinja #}
+{# file 1.chino #}
 {% for i in 1..5 %}
 number: {{i}}
 {% end %}
@@ -135,7 +135,7 @@ compile:
 
 ```ruby
 
-eval chino(File.read('1.jinja'), true,
+eval chino(File.read('1.chino'), true,
   buf: '_buf',
   block: %w[{% %}],
   embed: %w[{{ }}],
@@ -172,7 +172,7 @@ such as `let's {% hello("MADOKA") %}`
 it does...
 
 ```ruby
-chino(File.read('hi.chino'), true, buf: '@_buf')
+chino(File.read('2.chino'), true, buf: '@_buf')
 ```
 
 when define...
