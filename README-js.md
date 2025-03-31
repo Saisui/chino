@@ -41,4 +41,4 @@ It's Mon Apr 1 2025 00:00:00 GST (Greenwich Standard Time)!
 
 ## USAGE
 
-see [README.md](ruby README) also
+see <a href="README.md">ruby README</a> also
