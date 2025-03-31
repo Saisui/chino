@@ -19,7 +19,7 @@ It's {{Time.now}}
 ```ruby
 # world.rb
 @mahou = %w[madoka homura sayaka kyoko mami]
-eval chino(File.read('1.chino'), true)
+eval chino(File.read('hello.chino'), true)
 ```
 
 ## features
