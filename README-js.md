@@ -54,6 +54,7 @@ Chino's Meal
 <% for(let i, drink in ['coffee', 'cola', 'cha']) { %>
 Day {{ i+1 }}, Chino Drink {{drink}}!
 <% } %>
+Best Wishes!
 ```
 
 WITHOUT __CHINO__ 🍼
@@ -65,7 +66,7 @@ _nest hill_
 ${[[1, 'coffee'], [2, 'cola'], [3, 'cha']].map( ([i, drink]) => {
     return `Day ${i}, Chino Drink ${drink}!\n`
   }).join("")
-}`
+}Best Wishes!`
 ```
 
 # USAGE
