@@ -100,7 +100,7 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
         drop(ss, 1) if ss =~ rj
         drop(ss, 2)
-        if embed and !tmp and !tmp.empty?
+        if embed and tmp and !tmp.empty?
           ret << "#{ibuf} << (#{tmp}).to_s;\n"
         elsif is_comment
         else
