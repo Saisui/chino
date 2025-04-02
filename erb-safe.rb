@@ -24,10 +24,11 @@
 # FEATURE
 # - code
 #     - single code: code must be syntax parsed.
-#       `<%.` ... `%>`
-#     - block code: normally with another code. `<%` ... `%>`
-#     - comment: be ommitted. `<%#` ... `%>`
-#     - trim: ommit pre-blanks. `<%-` ... `%>`
+#       `<%. ... %>`
+#     - block code: normally with another code. `<% ... %>`
+#     - comment: be ommitted. `<%# ... %>`
+#     - trim: ommit pre-blanks. `<%- ... %>`7
+#     - one line code: <%# a_line: on %>
 # - embed
 #   - single embed: eval and embed into output. `<%=` ...`%>`
 #   - block embed: print yielding block: 
@@ -47,6 +48,7 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
   rc = /\A<%#/
   rj = /\A(\n?[ \t]*)<%(-)/
   rs = /\A<%\./
+  ra = /^\s*%[^%]/
 
   r1  = /\A%>/
 
@@ -57,10 +59,10 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
   tmp = ''
   rb = false
   embed = false
-  is_embed_block = false
+  is_block = false
   is_single = false
   is_comment = false
-
+  is_a_line = false
 
   def drop s, n = 1
     return '' if s.empty? || s.nil?
@@ -83,19 +85,24 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
     if rb
       if ss =~ r1 &&
-         ((embed && !is_embed_block || is_single) ? Ripper.sexp(tmp) : true)
+         ((embed && !is_block || is_single) ? Ripper.sexp(tmp) : true)
 
-        if is_embed_block
+        if is_block
           bufi = buf+(buf_i+1).to_s
           bufii = buf+(buf_i+2).to_s
+
           ret << "#{bufi} = #{tmp};\n"
+
           drop(ss, 2)
           tmp.clear
           sub_buf, ss = erb(ss, buf:, buf_i: buf_i+2)
-          # pp(buf_i:, sub_buf:, ss:)
           ret << sub_buf
-          ret << "#{ibuf} << (#{bufi}).to_s;\n"
-          is_embed_block = true
+
+          if embed
+            ret << "#{ibuf} << #{bufi}.to_s;\n"
+          end
+
+          is_block = true
         end
 
         drop(ss, 1) if ss =~ rj
@@ -103,10 +110,11 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
         if embed and tmp and !tmp.empty?
           ret << "#{ibuf} << (#{tmp}).to_s;\n"
         elsif is_comment
+          ret << "# #{tmp}\n"
         else
           ret << tmp << ";\n"
         end
-        rb = embed = is_comment = is_single = is_embed_block = false
+        rb = embed = is_comment = is_single = is_block = false
         tmp.clear
 
       else
@@ -130,9 +138,9 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
         end
 
         drop(ss,2)
-
-        if ss[0] == '='
-          embed = true
+        
+        if ss[0] == '*'
+          is_block = true
           drop(ss,1)
         end
 
@@ -141,27 +149,24 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
           drop(ss,1)
         end
 
+        if ss[0] == '='
+          embed = true
+          drop(ss,1)
+        end
+
         if ss[0] == '#'
           is_comment = true
           drop(ss,1)
         end
 
-        if ss[0,2] == '*='
-          embed = true
-          is_embed_block = true 
-          drop(ss,2)
-        end
-
         tmp.clear
-      # else
-      #  tmp << drop(ss,1)
       end
 
     end
 
   end
 
-  if rb # || is_comment || is_single || embed
+  if rb
     raise 'SyntaxError: syntax invailed or block not closed'
   end
 
@@ -171,14 +176,8 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
   end
 
   if buf_i == 0
-    "# encoding: utf-8\n#{buf} = '';\n" + ret + buf
+    "# encoding: utf-8\n#{buf} = +'';\n" + ret + buf
   else
-    # pp ret: ret, ibuf: ibuf
-    ["#{ibuf} = '';\n" + ret, ss]
+    ["#{ibuf} = +'';\n" + ret, ss]
   end
-end
-
-def erbse ss
-  require 'erbse'
-  Erbse::Engine.new.call(ss).gsub("; ", ";\n")
 end
