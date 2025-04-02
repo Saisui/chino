@@ -52,7 +52,7 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
   r1  = /\A%>/
 
-  rend = /\A<%( *end.*?)%>/
+  rend = /\A<%( *end\b.*?)%>/
   ss = template.dup
 
   ret = ''
@@ -73,111 +73,112 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
   
   catch :block_end do
-  until ss.empty?
+    until ss.empty?
 
-    if buf_i > 0 and ss =~ rend
-      ret << "#{ibuf} << #{tmp.inspect};\n"
-      tmp.clear
-      drop(ss,$1.size+2)
-      ret << "#{ibuf};\n#{$1};\n"
-      throw :block_end
-    end
+      if buf_i > 0 and ss =~ rend
+        ret << "#{ibuf} << #{tmp.inspect};\n"
+        tmp.clear
+        drop(ss,$1.size+2)
+        ret << "#{ibuf};\n#{$1};\n"
+        throw :block_end
+      end
 
-    if rb
-      if ss =~ r1 &&
-         ((embed && !is_block || is_single) ? Ripper.sexp(tmp) : true)
+      if rb
+        if ss =~ r1 &&
+           ((embed && !is_block || is_single) ? Ripper.sexp(tmp) : true)
 
-        if is_block
-          bufi = buf+(buf_i+1).to_s
-          bufii = buf+(buf_i+2).to_s
+          if is_block
+            bufi = buf+(buf_i+1).to_s
+            bufii = buf+(buf_i+2).to_s
 
-          ret << "#{bufi} = #{tmp};\n"
+            ret << "#{bufi} = #{tmp};\n"
 
-          drop(ss, 2)
-          tmp.clear
-          sub_buf, ss = erb(ss, buf:, buf_i: buf_i+2)
-          ret << sub_buf
+            drop(ss, 2)
+            tmp.clear
+            sub_buf, ss = erb(ss, buf:, buf_i: buf_i+2)
+            ret << sub_buf
 
-          if embed
-            ret << "#{ibuf} << #{bufi}.to_s;\n"
+            if embed
+              ret << "#{ibuf} << #{bufi}.to_s;\n"
+            end
+
+            is_block = true
           end
 
-          is_block = true
-        end
+          drop(ss, 1) if ss =~ rj
+          drop(ss, 2)
+          if embed and tmp and !tmp.empty?
+            ret << "#{ibuf} << (#{tmp}).to_s;\n"
+          elsif is_comment
+            ret << "# #{tmp}\n"
+          else
+            ret << tmp << ";\n"
+          end
+          rb = embed = is_comment = is_single = is_block = false
+          tmp.clear
 
-        drop(ss, 1) if ss =~ rj
-        drop(ss, 2)
-        if embed and tmp and !tmp.empty?
-          ret << "#{ibuf} << (#{tmp}).to_s;\n"
-        elsif is_comment
-          ret << "# #{tmp}\n"
         else
-          ret << tmp << ";\n"
+          tmp << drop(ss,1)
         end
-        rb = embed = is_comment = is_single = is_block = false
-        tmp.clear
+    
 
-      else
-        tmp << drop(ss,1)
-      end
-  
+      else # static
 
-    else # static
+        unless ss=~ rj || ss =~ r0
+          tmp << drop(ss,1)
+        else
 
-      unless ss=~ rj || ss =~ r0
-        tmp << drop(ss,1)
-      else
+          drop(ss,$1.size) if $1
+          drop(ss,$2.size) if $2
 
-        drop(ss,$1.size) if $1
-        drop(ss,$2.size) if $2
+          rb = true
 
-        rb = true
+          if tmp != ''
+            ret << "#{ibuf} << #{tmp.inspect};\n"
+          end
 
-        if tmp != ''
-          ret << "#{ibuf} << #{tmp.inspect};\n"
-        end
+          drop(ss,2)
+          
+          if ss[0] == '*'
+            is_block = true
+            drop(ss,1)
+          end
 
-        drop(ss,2)
-        
-        if ss[0] == '*'
-          is_block = true
-          drop(ss,1)
-        end
+          if ss[0] == '.'
+            is_single = true
+            drop(ss,1)
+          end
 
-        if ss[0] == '.'
-          is_single = true
-          drop(ss,1)
-        end
+          if ss[0] == '='
+            embed = true
+            drop(ss,1)
+          end
 
-        if ss[0] == '='
-          embed = true
-          drop(ss,1)
-        end
+          if ss[0] == '#'
+            is_comment = true
+            drop(ss,1)
+          end
 
-        if ss[0] == '#'
-          is_comment = true
-          drop(ss,1)
+          tmp.clear
         end
 
-        tmp.clear
       end
 
     end
 
-  end
+    if rb # || is_comment || is_single || embed
+      raise 'SyntaxError: syntax invailed or block not closed'
+    end
 
-  if rb
-    raise 'SyntaxError: syntax invailed or block not closed'
-  end
-
-  unless tmp.empty?
-    ret << "#{ibuf} << #{tmp.inspect};\n"
-  end
+    unless tmp.empty?
+      ret << "#{ibuf} << #{tmp.inspect};\n"
+    end
   end
 
   if buf_i == 0
     "# encoding: utf-8\n#{buf} = +'';\n" + ret + buf
   else
+    # pp ret: ret, ibuf: ibuf
     ["#{ibuf} = +'';\n" + ret, ss]
   end
 end
