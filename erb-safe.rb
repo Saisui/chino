@@ -1,18 +1,30 @@
 # Powered By Saisui @ github.io
-# 140 lines strong & powerful ERB render
+# 140 lines robust ERB render
 #
-# USAGE:
+# USAGE
+#     eval erb <<~ERB
+#       Hello!
+#       <% for i in 1..10 %>
+#       number is <%= i %>
+#       <% end %>
+#     ERB
 #
-#    eval(erb(<<~ERB))
-#      <% for i in 1..3 %>
-#      number is <%= i %>!
-#      <% end %>
-#    ERB
+# __block__ emmit, send yield
+#
+# ```erb
+#   <%*= form do %>
+#     <%*= label for: :uid do %>
+#       input your <b>UID</b>:
+#     <% end %>
+#     <%= input :@uid, :@@text %>
+#     <%= button :@submit %>
+#   <% end %>
+# ```
 #
 # FEATURE
-#
 # - code
-#     - single code: code must be syntax parsed. `<%.` ... `%>`
+#     - single code: code must be syntax parsed.
+#       `<%.` ... `%>`
 #     - block code: normally with another code. `<%` ... `%>`
 #     - comment: be ommitted. `<%#` ... `%>`
 #     - trim: ommit pre-blanks. `<%-` ... `%>`
