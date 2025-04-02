@@ -51,9 +51,9 @@ USE __CHINO__ 🍵
 
 ```erb
 Chino's Meal
-<% for(let i, drink in ['coffee', 'cola', 'cha']) { %>
+<% (['coffee', 'cola', 'cha']).forEach((drink, i) => { %>
 Day {{ i+1 }}, Chino Drink {{drink}}!
-<% } %>
+<% }) %>
 Best Wishes!
 ```
 
