@@ -40,7 +40,7 @@
 # @param {String} buf - Buf symbol name, to make scope feature
 #
 # @return {String} - Ruby code, eval it to get the output text
-def erb template, trim = false, buf: '@_buf', buf_i: 0
+def erb template, trim = false, buf: '_buf', buf_i: 0
   ibuf = buf_i == 0 ? buf : buf+buf_i.to_s
   r0 = trim ? /\A(\n?[ \t]*)<%/ : /\A<%/
   re = /\A<%=/
@@ -52,7 +52,7 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
   r1  = /\A%>/
 
-  rend = /\A<%( *end\b.*?)%>/
+  rend = /\A<%( *end\b.*?)%>/m
   ss = template.dup
 
   ret = ''
@@ -71,6 +71,12 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
     r
   end
 
+  def parsed(ss)
+    Ripper.sexp Ripper.lex(ss).map { |_,k,s,_|
+      ([k, s] in [:on_kw, 'yield']) ? s + '_call'
+      : s
+    }.join
+  end
   
   catch :block_end do
     until ss.empty?
@@ -85,13 +91,17 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
       if rb
         if ss =~ r1 &&
-           ((embed && !is_block || is_single) ? Ripper.sexp(tmp) : true)
+           ((embed && !is_block || is_single) ? parsed(tmp) : true)
 
           if is_block
             bufi = buf+(buf_i+1).to_s
             bufii = buf+(buf_i+2).to_s
 
-            ret << "#{bufi} = #{tmp};\n"
+            if embed
+              ret << "#{bufi} = "
+            end
+
+            ret << "#{tmp};\n"
 
             drop(ss, 2)
             tmp.clear
@@ -124,7 +134,7 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
 
       else # static
 
-        unless ss=~ rj || ss =~ r0
+        unless ss =~ rj || ss =~ r0
           tmp << drop(ss,1)
         else
 
@@ -178,7 +188,6 @@ def erb template, trim = false, buf: '@_buf', buf_i: 0
   if buf_i == 0
     "# encoding: utf-8\n#{buf} = +'';\n" + ret + buf
   else
-    # pp ret: ret, ibuf: ibuf
     ["#{ibuf} = +'';\n" + ret, ss]
   end
 end
