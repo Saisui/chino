@@ -51,8 +51,10 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
   ra = /^\s*%[^%]/
 
   r1  = /\A%>/
+  # r1_do = /\Ado\s*%>/m
 
-  rend = /\A<%( *end\b.*?)%>/m
+  # rend = /\A<%( *end\b.*?)%>/m
+  rend = /\A<%(-?)( *(?:end\b|\}).*?)%>/m
   ss = template.dup
 
   ret = ''
@@ -63,6 +65,7 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
   is_single = false
   is_comment = false
   is_a_line = false
+  is_cut_blanks = false
 
   def drop s, n = 1
     return '' if s.empty? || s.nil?
@@ -73,8 +76,7 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
 
   def parsed(ss)
     Ripper.sexp Ripper.lex(ss).map { |_,k,s,_|
-      ([k, s] in [:on_kw, 'yield']) ? s + '_call'
-      : s
+      ([k, s] in [:on_kw, 'yield']) ? s + '_call' : s
     }.join
   end
   
@@ -84,12 +86,16 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
       if buf_i > 0 and ss =~ rend
         ret << "#{ibuf} << #{tmp.inspect};\n"
         tmp.clear
-        drop(ss,$1.size+2)
-        ret << "#{ibuf};\n#{$1};\n"
+        drop(ss,$1.size+$2.size + 2)
+        ret << "#{ibuf};\n#{$2};\n"
         throw :block_end
       end
 
       if rb
+        # if ss =~ r1_do
+        #  is_block = true
+        # end
+
         if ss =~ r1 &&
            ((embed && !is_block || is_single) ? parsed(tmp) : true)
 
@@ -134,7 +140,7 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
 
       else # static
 
-        unless ss =~ rj || ss =~ r0
+        unless ss =~ r0
           tmp << drop(ss,1)
         else
 
@@ -143,11 +149,16 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
 
           rb = true
 
-          if tmp != ''
-            ret << "#{ibuf} << #{tmp.inspect};\n"
-          end
+          # if tmp != ''
+          #   ret << "#{ibuf} << #{tmp.inspect};\n"
+          # end
 
           drop(ss,2)
+
+          if ss[0] == '-'
+            is_cut_blanks = true
+            drop(ss,1)
+          end
           
           if ss[0] == '*'
             is_block = true
@@ -167,6 +178,15 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
           if ss[0] == '#'
             is_comment = true
             drop(ss,1)
+          end
+
+          if is_cut_blanks
+            tmp = tmp.match(/\A(.*?)(\r?\n[ \t]*)?\z/m)[1]
+            is_cut_blanks = false
+          end
+
+          if tmp != ''
+            ret << "#{ibuf} << #{tmp.inspect};\n"
           end
 
           tmp.clear
