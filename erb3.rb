@@ -23,7 +23,7 @@ def erb ss, buf: '_buf'
       ret << "#{bufi} = #{s[$1.size...-2]};\n"
       ret << "#{bufii} = ''" << ";\n"
       blks.push true
-    when /\A(<%\*)/m
+    when /\A(<%-?\*)/m
       i += 2
       bufi  = buf + (i.zero? ? '' : (i-1).to_s)
       bufii = buf + (i.zero? ? '' : i.to_s)
