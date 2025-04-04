@@ -67,7 +67,7 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
   is_a_line = false
   is_cut_blanks = false
 
-  def drop s, n = 1
+  def drop s, n = 12
     return '' if s.empty? || s.nil?
     r = s[0,n]
     s[0..] = s[n..]
@@ -84,10 +84,10 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
     ret = ''
     sur = ss.dup
     until sur.empty?
-      md = sur.match(/\A.*?%>/m)
-      ret << md[0]
-      drop(sur, md[0].size)
-      break ret if parsed(ret[...-2])
+      mm = sur.match(/\A.*?%>/m)[0]
+      ret << mm
+      drop(sur, mm.size)
+      break ret[...-2] if parsed(ret[...-2])
       break false if sur.empty?
     end
   end
@@ -151,7 +151,12 @@ def erb template, trim = false, buf: '_buf', buf_i: 0
           tmp.clear
 
         else
-          tmp << drop(ss,1)
+          if embed && !is_block || is_single
+            tmp << drop(ss,match_till(ss).size)
+          else
+            tmp << drop(ss, ss.match(/\A.*?%>/m)[0][...-2].size)
+          end
+          # tmp << drop(ss,1)
         end
 
       else # static
